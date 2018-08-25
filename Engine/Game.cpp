@@ -44,6 +44,7 @@ void Game::ComposeFrame() {
 
     const int sx = 800;
     const int sy = 600;
+	const int speed = 5;
 
     static int red = 255;
     static int green = 255;
@@ -56,10 +57,10 @@ void Game::ComposeFrame() {
     if (wnd.kbd.KeyIsPressed(0x52)) { red = (red + 1) & 0xFF; }
     if (wnd.kbd.KeyIsPressed(0x47)) { green = (green + 1) & 0xFF; }
     if (wnd.kbd.KeyIsPressed(0x42)) { blue = (blue + 1) & 0xFF; }
-    if (wnd.kbd.KeyIsPressed(VK_UP)) { y = (sy + y - 1) % sy; }
-    if (wnd.kbd.KeyIsPressed(VK_DOWN)) { y = (sy + y + 1) % sy; }
-    if (wnd.kbd.KeyIsPressed(VK_LEFT)) { x = (sx + x - 1) % sx; }
-    if (wnd.kbd.KeyIsPressed(VK_RIGHT)) { x = (sx + x + 1) % sx; }
+    if (wnd.kbd.KeyIsPressed(VK_UP)) { y = (sy + y - speed) % sy; }
+    if (wnd.kbd.KeyIsPressed(VK_DOWN)) { y = (sy + y + speed) % sy; }
+    if (wnd.kbd.KeyIsPressed(VK_LEFT)) { x = (sx + x - speed) % sx; }
+    if (wnd.kbd.KeyIsPressed(VK_RIGHT)) { x = (sx + x + speed) % sx; }
 
     if (wnd.kbd.KeyIsPressed(VK_PRIOR)) {
         ++a;

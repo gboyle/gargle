@@ -1,6 +1,9 @@
 # gargle
 DirectX experiements
 
+## Chilipedia
+
+- see http://wiki.planetchili.net
 
 ## Beginner C++ Game Programming DirectX
 
