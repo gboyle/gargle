@@ -44,15 +44,27 @@ class Game {
     /*  User Variables              */
     /********************************/
 
-    const int sx = 800;
-    const int sy = 600;
-    const int speed = 5;
+	const int max_speed = 10;
 
-    int red = 255;
-    int green = 255;
-    int blue = 255;
+    int s = 10;
+    int t = 20;
+
+    int r = 255;
+    int g = 255;
+    int b = 255;
+
+    int dr = 0;
+    int dg = 0;
+    int db = 0;
+
     int x = 255;
     int y = 255;
-    int a = 10;
-    int b = 20;
+
+    int dx = 0;
+    int dy = 0;
+
+	bool inhibit_right = false;
+    bool inhibit_left = false;
+    bool inhibit_up = false;
+    bool inhibit_down = false;
 };

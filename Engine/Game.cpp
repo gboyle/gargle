@@ -32,30 +32,99 @@ void Game::Go() {
 
 void Game::UpdateModel() {
 
-    if (wnd.kbd.KeyIsPressed(0x52)) { red = (red + speed) & 0xFF; }
-    if (wnd.kbd.KeyIsPressed(0x47)) { green = (green + speed) & 0xFF; }
-    if (wnd.kbd.KeyIsPressed(0x42)) { blue = (blue + speed) & 0xFF; }
-    if (wnd.kbd.KeyIsPressed(VK_UP)) { y = (sy + y - speed) % sy; }
-    if (wnd.kbd.KeyIsPressed(VK_DOWN)) { y = (sy + y + speed) % sy; }
-    if (wnd.kbd.KeyIsPressed(VK_LEFT)) { x = (sx + x - speed) % sx; }
-    if (wnd.kbd.KeyIsPressed(VK_RIGHT)) { x = (sx + x + speed) % sx; }
+    if (wnd.kbd.KeyIsPressed(0x52)) { dr = 1 - dr; }
+    if (wnd.kbd.KeyIsPressed(0x47)) { dg = 1 - dg; }
+    if (wnd.kbd.KeyIsPressed(0x42)) { db = 1 - db; }
 
-    if (wnd.kbd.KeyIsPressed(VK_PRIOR)) {
-        ++a;
-        ++b;
+    if (wnd.kbd.KeyIsPressed(VK_UP)) {
+        if (!inhibit_up) {
+            dy--;
+            inhibit_up = true;
+        }
+    } else {
+        inhibit_up = false;
     }
 
-    if (wnd.kbd.KeyIsPressed(VK_NEXT)) {
-        --a;
-        --b;
+    if (wnd.kbd.KeyIsPressed(VK_DOWN)) {
+        if (!inhibit_down) {
+            dy++;
+            inhibit_down = true;
+        }
+    } else {
+        inhibit_down = false;
+    }
+
+    if (wnd.kbd.KeyIsPressed(VK_LEFT)) {
+        if (!inhibit_left) {
+            dx--;
+            inhibit_left = true;
+        }
+    } else {
+        inhibit_left = false;
+    }
+
+    if (wnd.kbd.KeyIsPressed(VK_RIGHT)) {
+        if (!inhibit_right) {
+            dx++;
+            inhibit_right = true;
+        }
+    } else {
+        inhibit_right = false;
+    }
+
+    if (wnd.kbd.KeyIsPressed(VK_HOME)) {
+        dx = 0;
+        dy = 0;
+    }
+
+    if (wnd.kbd.KeyIsPressed(VK_PRIOR) && t < 100) {
+        ++s;
+        ++t;
+    }
+
+    if (wnd.kbd.KeyIsPressed(VK_NEXT) && s > 0) {
+        --s;
+        --t;
+    }
+
+    r += dr;
+    g += dg;
+    b += db;
+
+    x += dx;
+    y += dy;
+
+    if (dx > max_speed) { dx = max_speed; }
+    if (dx < -max_speed) { dx = -max_speed; }
+    if (dy > max_speed) { dy = max_speed; }
+    if (dy < -max_speed) { dy = -max_speed; }
+
+    if (x + t > gfx.ScreenWidth) {
+        x = gfx.ScreenWidth - t;
+        dx = -dx;
+    }
+
+    if (x - t < 0) {
+        x = t;
+        dx = -dx;
+    }
+
+    if (y + t > gfx.ScreenHeight) {
+        y = gfx.ScreenHeight - t;
+        dy = -dy;
+    }
+
+    if (y - t < 0) {
+        y = t;
+        dy = -dy;
     }
 }
 
 void Game::ComposeFrame() {
 
-    Color color(red, green, blue);
+    Color color(r, g, b);
 
-    for (int i = a; i < b; i++) {
+    for (int i = s; i < t; i++) {
         gfx.PutPixel(x + i, y, color);
         gfx.PutPixel(x - i, y, color);
         gfx.PutPixel(x, y + i, color);
