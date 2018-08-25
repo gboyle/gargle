@@ -41,6 +41,9 @@ Testing/
 # Visual Studio
 .vs/
 CMakeSettings.json
+Debug/
+Release/
+*.shh
 
 # imgui config file 
 imgui.ini
