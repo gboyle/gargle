@@ -21,42 +21,20 @@
 #include "MainWindow.h"
 #include "Game.h"
 
-Game::Game( MainWindow& wnd )
-	:
-	wnd( wnd ),
-	gfx( wnd )
-{
+Game::Game(MainWindow &wnd) : wnd(wnd), gfx(wnd) {}
+
+void Game::Go() {
+    gfx.BeginFrame();
+    UpdateModel();
+    ComposeFrame();
+    gfx.EndFrame();
 }
 
-void Game::Go()
-{
-	gfx.BeginFrame();	
-	UpdateModel();
-	ComposeFrame();
-	gfx.EndFrame();
-}
+void Game::UpdateModel() {
 
-void Game::UpdateModel()
-{
-}
-
-void Game::ComposeFrame() {
-
-    const int sx = 800;
-    const int sy = 600;
-	const int speed = 5;
-
-    static int red = 255;
-    static int green = 255;
-    static int blue = 255;
-    static int x = 255;
-    static int y = 255;
-    static int a = 10;
-    static int b = 20;
-
-    if (wnd.kbd.KeyIsPressed(0x52)) { red = (red + 1) & 0xFF; }
-    if (wnd.kbd.KeyIsPressed(0x47)) { green = (green + 1) & 0xFF; }
-    if (wnd.kbd.KeyIsPressed(0x42)) { blue = (blue + 1) & 0xFF; }
+    if (wnd.kbd.KeyIsPressed(0x52)) { red = (red + speed) & 0xFF; }
+    if (wnd.kbd.KeyIsPressed(0x47)) { green = (green + speed) & 0xFF; }
+    if (wnd.kbd.KeyIsPressed(0x42)) { blue = (blue + speed) & 0xFF; }
     if (wnd.kbd.KeyIsPressed(VK_UP)) { y = (sy + y - speed) % sy; }
     if (wnd.kbd.KeyIsPressed(VK_DOWN)) { y = (sy + y + speed) % sy; }
     if (wnd.kbd.KeyIsPressed(VK_LEFT)) { x = (sx + x - speed) % sx; }
@@ -71,6 +49,9 @@ void Game::ComposeFrame() {
         --a;
         --b;
     }
+}
+
+void Game::ComposeFrame() {
 
     Color color(red, green, blue);
 

@@ -24,23 +24,35 @@
 #include "Mouse.h"
 #include "Graphics.h"
 
-class Game
-{
-public:
-	Game( class MainWindow& wnd );
-	Game( const Game& ) = delete;
-	Game& operator=( const Game& ) = delete;
-	void Go();
-private:
-	void ComposeFrame();
-	void UpdateModel();
-	/********************************/
-	/*  User Functions              */
-	/********************************/
-private:
-	MainWindow& wnd;
-	Graphics gfx;
-	/********************************/
-	/*  User Variables              */
-	/********************************/
+class Game {
+  public:
+    Game(MainWindow &wnd);
+    Game(const Game &) = delete;
+    Game &operator=(const Game &) = delete;
+    void Go();
+
+  private:
+    void ComposeFrame();
+    void UpdateModel();
+    /********************************/
+    /*  User Functions              */
+    /********************************/
+  private:
+    MainWindow &wnd;
+    Graphics gfx;
+    /********************************/
+    /*  User Variables              */
+    /********************************/
+
+    const int sx = 800;
+    const int sy = 600;
+    const int speed = 5;
+
+    int red = 255;
+    int green = 255;
+    int blue = 255;
+    int x = 255;
+    int y = 255;
+    int a = 10;
+    int b = 20;
 };
