@@ -44,18 +44,10 @@ class Game {
     /*  User Variables              */
     /********************************/
 
-	const int max_speed = 10;
+    const int max_speed = 10;
 
     int s = 10;
     int t = 20;
-
-    int r = 255;
-    int g = 255;
-    int b = 255;
-
-    int dr = 0;
-    int dg = 0;
-    int db = 0;
 
     int x = 255;
     int y = 255;
@@ -63,8 +55,14 @@ class Game {
     int dx = 0;
     int dy = 0;
 
-	bool inhibit_right = false;
+    bool inhibit_right = false;
     bool inhibit_left = false;
     bool inhibit_up = false;
     bool inhibit_down = false;
+
+    Color color;
+    const int stationary_x = 400;
+    const int stationary_y = 300;
+
+    void drawReticle(int x, int y, Color const &c);
 };

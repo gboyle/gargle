@@ -32,10 +32,6 @@ void Game::Go() {
 
 void Game::UpdateModel() {
 
-    if (wnd.kbd.KeyIsPressed(0x52)) { dr = 1 - dr; }
-    if (wnd.kbd.KeyIsPressed(0x47)) { dg = 1 - dg; }
-    if (wnd.kbd.KeyIsPressed(0x42)) { db = 1 - db; }
-
     if (wnd.kbd.KeyIsPressed(VK_UP)) {
         if (!inhibit_up) {
             dy--;
@@ -87,10 +83,6 @@ void Game::UpdateModel() {
         --t;
     }
 
-    r += dr;
-    g += dg;
-    b += db;
-
     x += dx;
     y += dy;
 
@@ -118,16 +110,26 @@ void Game::UpdateModel() {
         y = t;
         dy = -dy;
     }
+
+    color = Color(255, 0, 0);
+    if (x + t < stationary_x - t) { color = Color(0, 255, 0); }
+    if (stationary_x + t < x - t) { color = Color(0, 255, 0); }
+    if (y + t < stationary_y - t) { color = Color(0, 255, 0); }
+    if (stationary_y + t < y - t) { color = Color(0, 255, 0); }
 }
 
 void Game::ComposeFrame() {
 
-    Color color(r, g, b);
+    drawReticle(stationary_x, stationary_y, Color(255, 255, 255));
+    drawReticle(x, y, color);
+}
+
+void Game::drawReticle(int x, int y, Color const &c) {
 
     for (int i = s; i < t; i++) {
-        gfx.PutPixel(x + i, y, color);
-        gfx.PutPixel(x - i, y, color);
-        gfx.PutPixel(x, y + i, color);
-        gfx.PutPixel(x, y - i, color);
+        gfx.PutPixel(x + i, y, c);
+        gfx.PutPixel(x - i, y, c);
+        gfx.PutPixel(x, y + i, c);
+        gfx.PutPixel(x, y - i, c);
     }
 }
