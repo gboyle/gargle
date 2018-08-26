@@ -44,25 +44,38 @@ class Game {
     /*  User Variables              */
     /********************************/
 
-    const int max_speed = 10;
-
     int s = 10;
     int t = 20;
 
+    Color color;
     int x = 255;
     int y = 255;
 
     int dx = 0;
     int dy = 0;
+    const int dmax = 10;
 
     bool inhibit_right = false;
     bool inhibit_left = false;
     bool inhibit_up = false;
     bool inhibit_down = false;
 
-    Color color;
-    const int stationary_x = 400;
-    const int stationary_y = 300;
+    const int fixed_x0 = 400;
+    const int fixed_y0 = 300;
+    const int fixed_x1 = 200;
+    const int fixed_y1 = 100;
+    const int fixed_x2 = 500;
+    const int fixed_y2 = 500;
+    const int fixed_x3 = 700;
+    const int fixed_y3 = 100;
 
+    void checkKeys();
+    static void limitSpeed(int &speed_x, int speed_y, int max_speed);
+    static void moveReticle(int &x, int &y, int &dx, int &dy);
+    void limitPosition(int &pos_x, int &pos_y, int &speed_x, int speed_y,
+                       int extent);
+    static bool overlapTest(int x1, int y1, int x2, int y2, int extent);
     void drawReticle(int x, int y, Color const &c);
+
+    static bool clamp(int &value, int min_val, int max_val);
 };

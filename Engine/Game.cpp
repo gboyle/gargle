@@ -32,6 +32,36 @@ void Game::Go() {
 
 void Game::UpdateModel() {
 
+    checkKeys();
+
+    limitSpeed(dx, dy, dmax);
+    moveReticle(x, y, dx, dy);
+    limitPosition(x, y, dx, dy, t);
+
+    bool overlapping = overlapTest(x, y, fixed_x0, fixed_y0, t) ||
+                       overlapTest(x, y, fixed_x1, fixed_y1, t) ||
+                       overlapTest(x, y, fixed_x2, fixed_y2, t) ||
+                       overlapTest(x, y, fixed_x3, fixed_y3, t);
+
+    if (overlapping) {
+        color = Color(255, 0, 0);
+    } else {
+        color = Color(0, 255, 0);
+    }
+}
+
+void Game::ComposeFrame() {
+
+    drawReticle(fixed_x0, fixed_y0, Color(255, 255, 255));
+    drawReticle(fixed_x1, fixed_y1, Color(255, 255, 255));
+    drawReticle(fixed_x2, fixed_y2, Color(255, 255, 255));
+    drawReticle(fixed_x3, fixed_y3, Color(255, 255, 255));
+
+    drawReticle(x, y, color);
+}
+
+void Game::checkKeys() {
+
     if (wnd.kbd.KeyIsPressed(VK_UP)) {
         if (!inhibit_up) {
             dy--;
@@ -82,46 +112,25 @@ void Game::UpdateModel() {
         --s;
         --t;
     }
+}
+
+void Game::limitSpeed(int &speed_x, int speed_y, int max_speed) {
+
+    clamp(speed_x, -max_speed, max_speed);
+    clamp(speed_y, -max_speed, max_speed);
+}
+
+void Game::moveReticle(int &x, int &y, int &dx, int &dy) {
 
     x += dx;
     y += dy;
-
-    if (dx > max_speed) { dx = max_speed; }
-    if (dx < -max_speed) { dx = -max_speed; }
-    if (dy > max_speed) { dy = max_speed; }
-    if (dy < -max_speed) { dy = -max_speed; }
-
-    if (x + t > gfx.ScreenWidth) {
-        x = gfx.ScreenWidth - t;
-        dx = -dx;
-    }
-
-    if (x - t < 0) {
-        x = t;
-        dx = -dx;
-    }
-
-    if (y + t > gfx.ScreenHeight) {
-        y = gfx.ScreenHeight - t;
-        dy = -dy;
-    }
-
-    if (y - t < 0) {
-        y = t;
-        dy = -dy;
-    }
-
-    color = Color(255, 0, 0);
-    if (x + t < stationary_x - t) { color = Color(0, 255, 0); }
-    if (stationary_x + t < x - t) { color = Color(0, 255, 0); }
-    if (y + t < stationary_y - t) { color = Color(0, 255, 0); }
-    if (stationary_y + t < y - t) { color = Color(0, 255, 0); }
 }
 
-void Game::ComposeFrame() {
+void Game::limitPosition(int &pos_x, int &pos_y, int &speed_x, int speed_y,
+                         int extent) {
 
-    drawReticle(stationary_x, stationary_y, Color(255, 255, 255));
-    drawReticle(x, y, color);
+    if (clamp(pos_x, extent, gfx.ScreenWidth - extent)) { dx = -dx; }
+    if (clamp(pos_y, extent, gfx.ScreenHeight - extent)) { dy = -dy; }
 }
 
 void Game::drawReticle(int x, int y, Color const &c) {
@@ -132,4 +141,29 @@ void Game::drawReticle(int x, int y, Color const &c) {
         gfx.PutPixel(x, y + i, c);
         gfx.PutPixel(x, y - i, c);
     }
+}
+
+bool Game::overlapTest(int x1, int y1, int x2, int y2, int extent) {
+
+    if (x1 + extent < x2 - extent) { return false; }
+    if (x2 + extent < x1 - extent) { return false; }
+    if (y1 + extent < y2 - extent) { return false; }
+    if (y2 + extent < y1 - extent) { return false; }
+
+    return true;
+}
+
+bool Game::clamp(int &value, int min_val, int max_val) {
+
+    if (value < min_val) {
+        value = min_val;
+        return true;
+    }
+
+    if (value > max_val) {
+        value = max_val;
+        return true;
+    }
+
+    return false;
 }
