@@ -20,9 +20,9 @@
  ******************************************************************************************/
 #pragma once
 
+#include "Graphics.h"
 #include "Keyboard.h"
 #include "Mouse.h"
-#include "Graphics.h"
 
 class Game {
   public:
@@ -44,41 +44,44 @@ class Game {
     /*  User Variables              */
     /********************************/
 
-    int s = 10;
-    int t = 20;
+    const int speed = 3;
 
-    Color color;
-    int x = 255;
-    int y = 255;
+    bool isStarted = false;
+    bool isFinished = false;
 
-    int dx = 0;
-    int dy = 0;
-    const int dmax = 20;
+    int collected = 0;
 
-    bool inhibit_right = false;
-    bool inhibit_left = false;
-    bool inhibit_up = false;
-    bool inhibit_down = false;
+    struct Player {
+        int x;
+        int y;
+        int w;
+        int h;
+        int score;
+    };
 
-	bool last_overlap = false;
+    std::vector<Player> players;
 
-    const int fixed_x0 = 400;
-    const int fixed_y0 = 300;
-    const int fixed_x1 = 200;
-    const int fixed_y1 = 100;
-    const int fixed_x2 = 500;
-    const int fixed_y2 = 500;
-    const int fixed_x3 = 700;
-    const int fixed_y3 = 100;
+    struct Item {
+        int x;
+        int y;
+        int w;
+        int h;
+        int dx;
+        int dy;
+        bool collected;
+    };
 
-    void checkKeys();
-    static void limitSpeed(int &speed_x, int &speed_y, int max_speed);
-    static void moveReticle(int &x, int &y, int &dx, int &dy);
-    void limitPosition(int &pos_x, int &pos_y, int &speed_x, int speed_y,
-                       int extent);
-    static bool overlapTest(int x1, int y1, int x2, int y2, int extent);
-    void drawReticle(int x, int y, Color const &c);
+    std::vector<Item> items;
 
-    static bool clamp(int &value, int min_val, int max_val);
-    static int signOf(int value);
+    void checkKeys(Player &player);
+    void limitPosition(Player &player);
+    bool isColliding(Player const &player, Item const &item) const;
+    void moveItem(Item &item);
+
+    void drawFace(int x, int y);
+    void drawItem(int x, int y);
+    void drawGameOver(int x, int y);
+    void drawTitle(int x, int y);
+
+    bool clamp(int &value, int min_val, int max_val) const;
 };
