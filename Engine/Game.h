@@ -83,5 +83,6 @@ class Game {
     void drawGameOver(int x, int y);
     void drawTitle(int x, int y);
 
+	bool inside(int value, int min_val, int max_val) const;
     bool clamp(int &value, int min_val, int max_val) const;
 };

@@ -117,12 +117,12 @@ void Game::moveItem(Item &item) {
     item.x += item.dx;
     item.y += item.dy;
 
-    if (clamp(item.x, 0, gfx.ScreenWidth - item.w)) {
+    if (!inside(item.x, 0, gfx.ScreenWidth - item.w)) {
         item.dx = -item.dx;
         item.x += item.dx;
     }
 
-    if (clamp(item.y, 0, gfx.ScreenHeight - item.h)) {
+    if (!inside(item.y, 0, gfx.ScreenHeight - item.h)) {
         item.dy = -item.dy;
         item.y += item.dy;
     }
@@ -29060,6 +29060,11 @@ void Game::drawTitle(int x, int y) {
 }
 
 ////////////////////////////////////////////////////////////////////
+
+bool Game::inside(int value, int min_val, int max_val) const {
+
+	return min_val <= value && value <= max_val;
+}
 
 bool Game::clamp(int &value, int min_val, int max_val) const {
 
