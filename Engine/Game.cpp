@@ -1,5 +1,5 @@
-/****************************************************************************************** 
- *	Chili DirectX Framework Version 16.07.20											  *	
+/******************************************************************************************
+ *	Chili DirectX Framework Version 16.07.20											  *
  *	Game.cpp																			  *
  *	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
  *																						  *
@@ -21,6 +21,7 @@
 #include "MainWindow.h"
 #include "Game.h"
 
+
 Game::Game(MainWindow &wnd) : wnd(wnd), gfx(wnd) {}
 
 void Game::Go() {
@@ -28,6 +29,17 @@ void Game::Go() {
     UpdateModel();
     ComposeFrame();
     gfx.EndFrame();
+}
+
+int Game::signOf(int value) {
+
+    if (value > 0) {
+        return 1;
+    } else if (value == 0) {
+        return 0;
+    } else {
+        return -1;
+    }
 }
 
 void Game::UpdateModel() {
@@ -44,10 +56,20 @@ void Game::UpdateModel() {
                        overlapTest(x, y, fixed_x3, fixed_y3, t);
 
     if (overlapping) {
-        color = Color(255, 0, 0);
+
+        color = Color(255, 0, 255);
+
+        if (!last_overlap) {
+            dx += signOf(dx);
+            dy += signOf(dy);
+        }
+
     } else {
-        color = Color(0, 255, 0);
+
+        color = Color(255, 255, 0);
     }
+
+    last_overlap = overlapping;
 }
 
 void Game::ComposeFrame() {
@@ -114,7 +136,7 @@ void Game::checkKeys() {
     }
 }
 
-void Game::limitSpeed(int &speed_x, int speed_y, int max_speed) {
+void Game::limitSpeed(int &speed_x, int &speed_y, int max_speed) {
 
     clamp(speed_x, -max_speed, max_speed);
     clamp(speed_y, -max_speed, max_speed);

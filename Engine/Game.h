@@ -53,12 +53,14 @@ class Game {
 
     int dx = 0;
     int dy = 0;
-    const int dmax = 10;
+    const int dmax = 20;
 
     bool inhibit_right = false;
     bool inhibit_left = false;
     bool inhibit_up = false;
     bool inhibit_down = false;
+
+	bool last_overlap = false;
 
     const int fixed_x0 = 400;
     const int fixed_y0 = 300;
@@ -70,7 +72,7 @@ class Game {
     const int fixed_y3 = 100;
 
     void checkKeys();
-    static void limitSpeed(int &speed_x, int speed_y, int max_speed);
+    static void limitSpeed(int &speed_x, int &speed_y, int max_speed);
     static void moveReticle(int &x, int &y, int &dx, int &dy);
     void limitPosition(int &pos_x, int &pos_y, int &speed_x, int speed_y,
                        int extent);
@@ -78,4 +80,5 @@ class Game {
     void drawReticle(int x, int y, Color const &c);
 
     static bool clamp(int &value, int min_val, int max_val);
+    static int signOf(int value);
 };
