@@ -81,6 +81,9 @@ void Game::UpdateModel() {
         }
     }
 
+    rect.checkKeys(wnd);
+    rect.limitPosition();
+
     for (auto &item : items) {
         item.move();
     }
@@ -110,12 +113,14 @@ void Game::ComposeFrame() {
         return;
     }
 
+    rect.draw(gfx);
+
     for (auto const &item : items) {
         item.draw(gfx);
     }
 
     for (auto const &player : players) {
-		player.draw(gfx);
+        player.draw(gfx);
     }
 }
 

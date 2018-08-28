@@ -26,6 +26,7 @@
 
 #include "game-item.h"
 #include "game-player.h"
+#include "game-rectangle.h"
 
 class Game {
   public:
@@ -54,6 +55,7 @@ class Game {
 
     std::vector<Player> players;
     std::vector<Item> items;
+	MovableRectangle rect;
 
     void drawGameOver(int x, int y);
     void drawTitle(int x, int y);
