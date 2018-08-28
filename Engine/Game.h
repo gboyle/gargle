@@ -55,12 +55,6 @@ class Game {
     std::vector<Player> players;
     std::vector<Item> items;
 
-    void checkKeys(Player &player);
-    void limitPosition(Player &player);
-    bool isColliding(Player const &player, Item const &item) const;
-
-    void drawFace(int x, int y);
-    void drawItem(int x, int y);
     void drawGameOver(int x, int y);
     void drawTitle(int x, int y);
 };
