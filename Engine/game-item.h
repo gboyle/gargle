@@ -19,6 +19,6 @@ class Item {
     static constexpr int h = 24;
 
     void move();
-    bool isColliding(Player const &player) const;
+    void checkCollision(Player &player, int &total_collected);
     void draw(Graphics &gfx) const;
 };

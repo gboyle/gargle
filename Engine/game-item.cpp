@@ -20,16 +20,16 @@ void Item::move() {
     }
 }
 
-bool Item::isColliding(Player const &player) const {
+void Item::checkCollision(Player &player, int &total_collected) {
 
-    if (collected) { return false; }
+    if (collected || player.x + player.w < x || x + w < player.x ||
+        player.y + player.h < y || y + h < player.y) {
+        return;
+    }
 
-    if (player.x + player.w < x) { return false; }
-    if (x + w < player.x) { return false; }
-    if (player.y + player.h < y) { return false; }
-    if (y + h < player.y) { return false; }
-
-    return true;
+    collected = true;
+    player.score++;
+    total_collected++;
 }
 
 void Item::draw(Graphics &gfx) const {

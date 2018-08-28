@@ -91,11 +91,7 @@ void Game::UpdateModel() {
         player.limitPosition();
 
         for (auto &item : items) {
-			if(item.isColliding(player)) {
-                item.collected = true;
-                player.score++;
-                collected++;
-            }
+            item.checkCollision(player, collected);
         }
     }
 
