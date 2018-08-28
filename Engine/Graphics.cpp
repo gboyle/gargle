@@ -26,6 +26,8 @@
 #include <string>
 #include <array>
 
+#include "game-util.h"
+
 // Ignore the intellisense error "cannot open source file" for .shh files.
 // They will be created during the build sequence before the preprocessor runs.
 namespace FramebufferShaders
@@ -316,6 +318,17 @@ void Graphics::PutPixel( int x,int y,Color c )
 	pSysBuffer[Graphics::ScreenWidth * y + x] = c;
 }
 
+void Graphics::DrawRect(int x0, int y0, int x1, int y1, Color c) {
+
+	order(x0, x1);
+	order(y0, y1);
+
+    for (int y = y0; y < y1; ++y) {
+        for (int x = x0; x < x1; ++x) {
+            PutPixel(x, y, c);
+        }
+    }
+}
 
 //////////////////////////////////////////////////
 //           Graphics Exception

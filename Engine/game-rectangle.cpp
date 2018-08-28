@@ -20,6 +20,11 @@ void MovableRectangle::checkKeys(MainWindow &wnd) {
     if (wnd.kbd.KeyIsPressed('J')) { g -= 8; }
     if (wnd.kbd.KeyIsPressed('I')) { b += 8; }
     if (wnd.kbd.KeyIsPressed('K')) { b -= 8; }
+
+    if (wnd.mouse.LeftIsPressed()) {
+        w = wnd.mouse.GetPosX() - x;
+        h = wnd.mouse.GetPosY() - y;
+    }
 }
 
 void MovableRectangle::limitPosition() {
@@ -28,17 +33,14 @@ void MovableRectangle::limitPosition() {
     clamp(g, 0, 255);
     clamp(b, 0, 255);
 
-    clamp(w, 1, max_width);
-    clamp(h, 1, max_width);
+    clamp(w, -max_width, max_width);
+    clamp(h, -max_width, max_width);
 
     clamp(x, 0, Graphics::ScreenWidth - w);
     clamp(y, 0, Graphics::ScreenHeight - h);
 }
 
 void MovableRectangle::draw(Graphics &gfx) {
-    for (int i = 0; i < w; i++) {
-        for (int j = 0; j < h; j++) {
-            gfx.PutPixel(x + i, y + j, r, g, b);
-        }
-    }
+
+    gfx.DrawRectWH(x, y, w, h, Color(r, g, b));
 }
