@@ -24,6 +24,9 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 
+#include "game-item.h"
+#include "game-player.h"
+
 class Game {
   public:
     Game(MainWindow &wnd);
@@ -44,45 +47,20 @@ class Game {
     /*  User Variables              */
     /********************************/
 
-    const int speed = 3;
-
     bool isStarted = false;
     bool isFinished = false;
 
     int collected = 0;
 
-    struct Player {
-        int x;
-        int y;
-        int w;
-        int h;
-        int score;
-    };
-
     std::vector<Player> players;
-
-    struct Item {
-        int x;
-        int y;
-        int w;
-        int h;
-        int dx;
-        int dy;
-        bool collected;
-    };
-
     std::vector<Item> items;
 
     void checkKeys(Player &player);
     void limitPosition(Player &player);
     bool isColliding(Player const &player, Item const &item) const;
-    void moveItem(Item &item);
 
     void drawFace(int x, int y);
     void drawItem(int x, int y);
     void drawGameOver(int x, int y);
     void drawTitle(int x, int y);
-
-	bool inside(int value, int min_val, int max_val) const;
-    bool clamp(int &value, int min_val, int max_val) const;
 };

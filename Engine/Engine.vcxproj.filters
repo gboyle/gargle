@@ -48,6 +48,15 @@
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="game-item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game-player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game-util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">
@@ -69,6 +78,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game-item.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game-player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game-util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
