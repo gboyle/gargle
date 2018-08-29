@@ -17,7 +17,7 @@ class MovableRectangle {
     static constexpr int max_width = 200;
 
   public:
-    void checkKeys(MainWindow &wnd);
+    void checkKeys(MainWindow const &wnd);
     void limitPosition();
     void draw(Graphics &gfx);
 };

@@ -2,7 +2,7 @@
 #include "game-rectangle.h"
 #include "game-util.h"
 
-void MovableRectangle::checkKeys(MainWindow &wnd) {
+void MovableRectangle::checkKeys(MainWindow const &wnd) {
 
     if (wnd.kbd.KeyIsPressed('A')) { x -= speed; }
     if (wnd.kbd.KeyIsPressed('D')) { x += speed; }

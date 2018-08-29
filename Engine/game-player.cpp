@@ -11,7 +11,7 @@ Player::Player(std::mt19937 &gen) {
     y = dis_y(gen);
 }
 
-void Player::checkKeys(MainWindow &wnd) {
+void Player::checkKeys(MainWindow const &wnd) {
 
     if (wnd.kbd.KeyIsPressed(VK_UP)) { y -= speed; }
     if (wnd.kbd.KeyIsPressed(VK_DOWN)) { y += speed; }
@@ -27,7 +27,7 @@ void Player::limitPosition() {
 
 void Player::collectItem() { ++score; }
 
-Extent Player::extent() { return {x, x + w, y, y + h}; }
+Extent Player::extent() const { return {x, x + w, y, y + h}; }
 
 void Player::draw(Graphics &gfx) const {
 

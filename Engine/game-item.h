@@ -25,7 +25,7 @@ class Item {
     void move();
     void checkCollision(Player &player, int &total_collected);
 
-    Extent extent();
+    Extent extent() const;
 
     void draw(Graphics &gfx) const;
 };

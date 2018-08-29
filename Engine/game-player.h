@@ -21,11 +21,11 @@ class Player {
   public:
     explicit Player(std::mt19937 &gen);
 
-    void checkKeys(MainWindow &wnd);
+    void checkKeys(MainWindow const &wnd);
     void limitPosition();
     void collectItem();
 
-    Extent extent();
+    Extent extent() const;
 
     void draw(Graphics &gfx) const;
 };

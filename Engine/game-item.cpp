@@ -41,7 +41,7 @@ void Item::checkCollision(Player &player, int &total_collected) {
     }
 }
 
-Extent Item::extent() { return {x, x + w, y, y + h}; }
+Extent Item::extent() const { return {x, x + w, y, y + h}; }
 
 void Item::draw(Graphics &gfx) const {
 
