@@ -30,7 +30,7 @@
 
 class Game {
   public:
-    Game(MainWindow &wnd);
+    explicit Game(MainWindow &wnd);
     Game(const Game &) = delete;
     Game &operator=(const Game &) = delete;
     void Go();

@@ -2,6 +2,18 @@
 #include "game-item.h"
 #include "game-util.h"
 
+Item::Item(std::mt19937 &gen) {
+
+    std::uniform_int_distribution<> dis_x(0, Graphics::ScreenWidth - w);
+    std::uniform_int_distribution<> dis_y(0, Graphics::ScreenHeight - h);
+    std::uniform_int_distribution<> dis_v(-3, 3);
+
+    x = dis_x(gen);
+    y = dis_y(gen);
+    dx = dis_v(gen);
+    dy = dis_v(gen);
+}
+
 void Item::move() {
 
     if (collected) { return; }
@@ -22,15 +34,14 @@ void Item::move() {
 
 void Item::checkCollision(Player &player, int &total_collected) {
 
-    if (collected || player.x + player.w < x || x + w < player.x ||
-        player.y + player.h < y || y + h < player.y) {
-        return;
+    if (!collected && extent().overlaps(player.extent())) {
+        collected = true;
+        total_collected++;
+        player.collectItem();
     }
-
-    collected = true;
-    player.score++;
-    total_collected++;
 }
+
+Extent Item::extent() { return {x, x + w, y, y + h}; }
 
 void Item::draw(Graphics &gfx) const {
 

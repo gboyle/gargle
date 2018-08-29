@@ -36,8 +36,17 @@ void MovableRectangle::limitPosition() {
     clamp(w, -max_width, max_width);
     clamp(h, -max_width, max_width);
 
-    clamp(x, 0, Graphics::ScreenWidth - w);
-    clamp(y, 0, Graphics::ScreenHeight - h);
+    if (w >= 0) {
+        clamp(x, 0, Graphics::ScreenWidth - w);
+    } else {
+        clamp(x, -w, Graphics::ScreenWidth);
+    }
+
+    if (h >= 0) {
+        clamp(y, 0, Graphics::ScreenHeight - h);
+    } else {
+        clamp(y, -h, Graphics::ScreenHeight);
+    }
 }
 
 void MovableRectangle::draw(Graphics &gfx) {

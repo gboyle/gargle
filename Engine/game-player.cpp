@@ -2,6 +2,15 @@
 #include "game-player.h"
 #include "game-util.h"
 
+Player::Player(std::mt19937 &gen) {
+
+    std::uniform_int_distribution<> dis_x(0, Graphics::ScreenWidth - w);
+    std::uniform_int_distribution<> dis_y(0, Graphics::ScreenHeight - h);
+
+    x = dis_x(gen);
+    y = dis_y(gen);
+}
+
 void Player::checkKeys(MainWindow &wnd) {
 
     if (wnd.kbd.KeyIsPressed(VK_UP)) { y -= speed; }
@@ -15,6 +24,10 @@ void Player::limitPosition() {
     clamp(x, 0, Graphics::ScreenWidth - w);
     clamp(y, 0, Graphics::ScreenHeight - h);
 }
+
+void Player::collectItem() { ++score; }
+
+Extent Player::extent() { return {x, x + w, y, y + h}; }
 
 void Player::draw(Graphics &gfx) const {
 

@@ -30,35 +30,18 @@ Game::Game(MainWindow &wnd) : wnd(wnd), gfx(wnd) {
     std::random_device rd;
     std::mt19937 gen(rd());
 
-    {
-        std::uniform_int_distribution<> dis_x(0, gfx.ScreenWidth - Item::w);
-        std::uniform_int_distribution<> dis_y(0, gfx.ScreenHeight - Item::h);
-        std::uniform_int_distribution<> dis_v(-3, 3);
+    int item_count = std::uniform_int_distribution<>(3, 16)(gen);
+    items.reserve(item_count);
 
-        int count = std::uniform_int_distribution<>(3, 12)(gen);
-
-        items.resize(count);
-
-        for (auto &item : items) {
-            item.x = dis_x(gen);
-            item.y = dis_y(gen);
-            item.dx = dis_v(gen);
-            item.dy = dis_v(gen);
-        }
+    for (int i = 0; i < item_count; ++i) {
+        items.emplace_back(gen);
     }
 
-    {
-        std::uniform_int_distribution<> dis_x(0, gfx.ScreenWidth - Player::w);
-        std::uniform_int_distribution<> dis_y(0, gfx.ScreenHeight - Player::h);
+    int player_count = std::uniform_int_distribution<>(1, 4)(gen);
+    players.reserve(player_count);
 
-        int count = std::uniform_int_distribution<>(1, 3)(gen);
-
-        players.resize(count);
-
-        for (auto &player : players) {
-            player.x = dis_x(gen);
-            player.y = dis_y(gen);
-        }
+    for (int i = 0; i < player_count; ++i) {
+        players.emplace_back(gen);
     }
 }
 
@@ -28471,4 +28454,3 @@ void Game::drawTitle(int x, int y) {
     gfx.PutPixel(148 + x, 174 + y, 208, 34, 34);
     gfx.PutPixel(149 + x, 174 + y, 208, 34, 34);
 }
-

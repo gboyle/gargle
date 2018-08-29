@@ -4,9 +4,10 @@
 
 #include "Graphics.h"
 
+#include <random>
+
 class Item {
 
-  public:
     int x = 0;
     int y = 0;
 
@@ -18,7 +19,13 @@ class Item {
     static constexpr int w = 24;
     static constexpr int h = 24;
 
+  public:
+    explicit Item(std::mt19937 &gen);
+
     void move();
     void checkCollision(Player &player, int &total_collected);
+
+    Extent extent();
+
     void draw(Graphics &gfx) const;
 };
