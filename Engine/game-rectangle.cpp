@@ -2,54 +2,24 @@
 #include "game-rectangle.h"
 #include "game-util.h"
 
-void MovableRectangle::checkKeys(MainWindow const &wnd) {
+MovableRectangle::MovableRectangle(std::mt19937 &gen) { relocate(gen); }
 
-    if (wnd.kbd.KeyIsPressed('A')) { x -= speed; }
-    if (wnd.kbd.KeyIsPressed('D')) { x += speed; }
-    if (wnd.kbd.KeyIsPressed('W')) { y -= speed; }
-    if (wnd.kbd.KeyIsPressed('S')) { y += speed; }
+void MovableRectangle::relocate(std::mt19937 &gen) {
 
-    if (wnd.kbd.KeyIsPressed('R')) { w += 2; }
-    if (wnd.kbd.KeyIsPressed('F')) { w -= 2; }
-    if (wnd.kbd.KeyIsPressed('T')) { h += 2; }
-    if (wnd.kbd.KeyIsPressed('G')) { h -= 2; }
+    std::uniform_int_distribution<> dis_x(0, Graphics::ScreenWidth - w);
+    std::uniform_int_distribution<> dis_y(0, Graphics::ScreenHeight - h);
+    std::uniform_int_distribution<> dis_c(32, 255);
 
-    if (wnd.kbd.KeyIsPressed('Y')) { r += 8; }
-    if (wnd.kbd.KeyIsPressed('H')) { r -= 8; }
-    if (wnd.kbd.KeyIsPressed('U')) { g += 8; }
-    if (wnd.kbd.KeyIsPressed('J')) { g -= 8; }
-    if (wnd.kbd.KeyIsPressed('I')) { b += 8; }
-    if (wnd.kbd.KeyIsPressed('K')) { b -= 8; }
-
-    if (wnd.mouse.LeftIsPressed()) {
-        w = wnd.mouse.GetPosX() - x;
-        h = wnd.mouse.GetPosY() - y;
-    }
+    x = dis_x(gen);
+    y = dis_y(gen);
+    r = dis_c(gen);
+    g = dis_c(gen);
+    b = dis_c(gen);
 }
 
-void MovableRectangle::limitPosition() {
+Extent MovableRectangle::extent() const { return {x, x + w, y, y + h}; }
 
-    clamp(r, 0, 255);
-    clamp(g, 0, 255);
-    clamp(b, 0, 255);
-
-    clamp(w, -max_width, max_width);
-    clamp(h, -max_width, max_width);
-
-    if (w >= 0) {
-        clamp(x, 0, Graphics::ScreenWidth - w);
-    } else {
-        clamp(x, -w, Graphics::ScreenWidth);
-    }
-
-    if (h >= 0) {
-        clamp(y, 0, Graphics::ScreenHeight - h);
-    } else {
-        clamp(y, -h, Graphics::ScreenHeight);
-    }
-}
-
-void MovableRectangle::draw(Graphics &gfx) {
+void MovableRectangle::draw(Graphics &gfx) const {
 
     gfx.DrawRectWH(x, y, w, h, Color(r, g, b));
 }

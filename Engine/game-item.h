@@ -14,16 +14,13 @@ class Item {
     int dx = 0;
     int dy = 0;
 
-    bool collected = false;
-
     static constexpr int w = 24;
     static constexpr int h = 24;
 
   public:
     explicit Item(std::mt19937 &gen);
 
-    void move();
-    void checkCollision(Player &player, int &total_collected);
+    void move();    
 
     Extent extent() const;
 

@@ -14,6 +14,8 @@ class Player {
 
     int score = 0;
 
+	bool alive = true;
+
     static constexpr int w = 20;
     static constexpr int h = 20;
     static constexpr int speed = 3;
@@ -23,7 +25,8 @@ class Player {
 
     void checkKeys(MainWindow const &wnd);
     void limitPosition();
-    void collectItem();
+    void die();
+	bool isAlive() const;
 
     Extent extent() const;
 

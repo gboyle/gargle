@@ -23,12 +23,7 @@
 
 #include "game-util.h"
 
-#include <random>
-
-Game::Game(MainWindow &wnd) : wnd(wnd), gfx(wnd) {
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
+Game::Game(MainWindow &wnd) : wnd(wnd), gfx(wnd), gen(rd()) {
 
     int item_count = std::uniform_int_distribution<>(3, 16)(gen);
     items.reserve(item_count);
@@ -42,6 +37,13 @@ Game::Game(MainWindow &wnd) : wnd(wnd), gfx(wnd) {
 
     for (int i = 0; i < player_count; ++i) {
         players.emplace_back(gen);
+    }
+
+    int rectangle_count = std::uniform_int_distribution<>(1, 5)(gen);
+    rectangles.reserve(rectangle_count);
+
+    for (int i = 0; i < rectangle_count; ++i) {
+        rectangles.emplace_back(gen);
     }
 }
 
@@ -64,24 +66,34 @@ void Game::UpdateModel() {
         }
     }
 
-    rect.checkKeys(wnd);
-    rect.limitPosition();
-
     for (auto &item : items) {
         item.move();
     }
 
     for (auto &player : players) {
 
-        player.checkKeys(wnd);
-        player.limitPosition();
+        if (player.isAlive()) {
 
-        for (auto &item : items) {
-            item.checkCollision(player, collected);
+            player.checkKeys(wnd);
+            player.limitPosition();
+
+            for (auto &item : items) {
+                if (player.extent().overlaps(item.extent())) {
+                    player.die();
+                    ++killed;
+                }
+            }
+
+            for (auto &rect : rectangles) {
+                if (player.extent().overlaps(rect.extent())) {
+                    rect.relocate(gen);
+                    ++score;
+                }
+            }
         }
     }
 
-    if (collected == items.size()) { isFinished = true; }
+    if (killed == players.size()) { isFinished = true; }
 }
 
 void Game::ComposeFrame() {
@@ -91,12 +103,11 @@ void Game::ComposeFrame() {
         return;
     }
 
-    if (isFinished) {
-        drawGameOver(358, 268);
-        return;
-    }
+    score.draw(gfx);
 
-    rect.draw(gfx);
+    for (auto const &rect : rectangles) {
+        rect.draw(gfx);
+    }
 
     for (auto const &item : items) {
         item.draw(gfx);
@@ -105,6 +116,8 @@ void Game::ComposeFrame() {
     for (auto const &player : players) {
         player.draw(gfx);
     }
+
+    if (isFinished) { drawGameOver(358, 268); }
 }
 
 ////////////////////////////////////////////////////////////////////

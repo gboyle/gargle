@@ -24,9 +24,12 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 
+#include "game-score.h"
 #include "game-item.h"
 #include "game-player.h"
 #include "game-rectangle.h"
+
+#include <random>
 
 class Game {
   public:
@@ -48,14 +51,18 @@ class Game {
     /*  User Variables              */
     /********************************/
 
+	std::random_device rd;
+	std::mt19937 gen;
+
     bool isStarted = false;
     bool isFinished = false;
 
-    int collected = 0;
+    int killed = 0;
 
+	GameScore score;
     std::vector<Player> players;
     std::vector<Item> items;
-	MovableRectangle rect;
+	std::vector<MovableRectangle> rectangles;
 
     void drawGameOver(int x, int y);
     void drawTitle(int x, int y);

@@ -13,6 +13,8 @@ Player::Player(std::mt19937 &gen) {
 
 void Player::checkKeys(MainWindow const &wnd) {
 
+    if (!alive) { return; }
+
     if (wnd.kbd.KeyIsPressed(VK_UP)) { y -= speed; }
     if (wnd.kbd.KeyIsPressed(VK_DOWN)) { y += speed; }
     if (wnd.kbd.KeyIsPressed(VK_LEFT)) { x -= speed; }
@@ -25,7 +27,9 @@ void Player::limitPosition() {
     clamp(y, 0, Graphics::ScreenHeight - h);
 }
 
-void Player::collectItem() { ++score; }
+void Player::die() { alive = false; }
+
+bool Player::isAlive() const { return alive; }
 
 Extent Player::extent() const { return {x, x + w, y, y + h}; }
 

@@ -16,8 +16,6 @@ Item::Item(std::mt19937 &gen) {
 
 void Item::move() {
 
-    if (collected) { return; }
-
     x += dx;
     y += dy;
 
@@ -32,20 +30,9 @@ void Item::move() {
     }
 }
 
-void Item::checkCollision(Player &player, int &total_collected) {
-
-    if (!collected && extent().overlaps(player.extent())) {
-        collected = true;
-        total_collected++;
-        player.collectItem();
-    }
-}
-
 Extent Item::extent() const { return {x, x + w, y, y + h}; }
 
 void Item::draw(Graphics &gfx) const {
-
-    if (collected) { return; }
 
     gfx.PutPixel(14 + x, 0 + y, 138, 77, 0);
     gfx.PutPixel(7 + x, 1 + y, 138, 77, 0);
